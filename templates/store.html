@@ -1,0 +1,23 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+{% block body %}
+<div class="container  my-3">
+    <div class="row ">
+        {% for product in products %}
+        <div class="col-md-4 my-3">
+            <img class="store_pic" src="{{product.imageURL}}">
+            <div class="box_element product ">
+               <h6 ><strong>{{product.name}}</strong></h6> 
+               <hr>
+               <button class="btn btn-outline-secondary" >Add to cart</button>
+               <a href="" class="btn btn-outline-success">View</a>
+               <h4 class="price"><strong>&#8377; {{product.price}}</strong></h4>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock body %}

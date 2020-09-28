@@ -1,0 +1,47 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block title %}Cart{% endblock title %}
+{% block body %}
+<div class="container my-3">
+    <div class="my-3 box_element">
+     <button class="btn btn-outline-bg-dark my-2"><a href="{% url 'store' %}" class="text-dark"><img id="arrow" src="{% static 'images/back_arrow.png' %}" >  Continue shopping</a></button>
+     
+     <table class="table">
+         <tr>
+             <th>Items:<strong>3</strong></th>
+             <th>Total:<strong>$42</strong></th>
+             <th>
+                <a href="{% url 'checkout' %}" class="btn btn-success" style="float:right;">CheckOut</a>
+
+             </th>
+             
+         </tr>
+     </table>
+
+    </div>
+    <br>
+    <div class="box_element my-3">
+        <div class="cart_row">
+            <div style="flex:2;"><strong></strong></div>
+            <div style="flex:2;"><strong>Item</strong></div>
+            <div style="flex:1;"><strong>Price</strong></div>
+            <div style="flex:1;" ><strong>Quantity</strong></div>
+            <div style="flex:1;"><strong>Total</strong></div>
+        </div>
+        <div class="cart_row">
+            <div style="flex:2;"><img class="row_image" src="{% static 'images/placeholder.png'%}"></div>
+            <div style="flex:2;">Product 1</div>
+            <div style="flex:1;">$20</div>
+            <div style="flex:1;" ><p class="quantity">2</p>
+                <div class="quantity ">
+                    <img class="chg-quantity" src="{% static  'images/arrow-up.png' %}">
+            
+                    <img class="chg-quantity" src="{% static  'images/arrow-down.png' %}">
+                </div></div>
+            <div style="flex:1;"><p>40</p></div>
+        </div>
+
+    </div>
+</div>
+{% endblock body %}
