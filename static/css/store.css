@@ -53,11 +53,11 @@ h1,h2,h3,h4,h5,h6{
     padding-top: 2px;
 }
 #arrow{
-    display: inline-block;
+    /* display: inline-block; */
     height: 15px;
     width: 20px;
 }
-
+ 
 .cart_row{
 	display: flex;
     align-items: flex-stretch;
