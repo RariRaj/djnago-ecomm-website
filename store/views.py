@@ -1,4 +1,4 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse,redirect
 from .models import *
 
 from django.http import JsonResponse
@@ -14,7 +14,64 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .utils import cookieCart, cartData, guestUser
 
+from django.contrib.auth.forms import UserCreationForm
+
+from .forms import CreateUserForm
+
+from django.contrib import messages
+
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.models import Group
+from .decorators import unauthenticated_user
+
 # Create your views here.
+
+
+@unauthenticated_user
+def registerUser(request):
+
+    if request.method =="POST":
+        form = CreateUserForm(request.POST)
+        print("inside post method")
+        if form.is_valid():
+            print("inside valid form")
+            user = form.save()
+            username= form.cleaned_data.get('username')
+            messages.success(request,'Account is created for' +' '+ username)
+            group = Group.objects.get(name='customer')
+            user.groups.add(group)
+            Customer.objects.create(
+                user = user,
+                name = username,
+            )
+            return redirect("/loginUser")
+        else:
+            print("error occured")
+    else:
+        form=CreateUserForm()
+    context ={'form':form}
+    return render(request,"registration.html",context)
+
+@unauthenticated_user
+def loginUser(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request,username=username,password=password)
+
+        print(user)
+        if user is not None:
+            login(request,user)
+            return redirect('store')
+        else:
+            messages.info(request,'Username or Password is incorrect')
+        
+
+    return render(request,'loginUser.html')
+
+def logoutUser(request):
+    logout(request)
+    return redirect('/loginUser')
 
 def store(request):
 
