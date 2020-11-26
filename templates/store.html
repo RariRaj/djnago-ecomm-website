@@ -7,12 +7,12 @@
     <div class="row ">
         {% for product in products %}
         <div class="col-md-4 my-3">
-            <img class="store_pic" src="{{product.imageURL}}">
+            <a href="{{product.imageURL}}" style="cursor:unset;"><img class="store_pic"  src="{{product.imageURL}}"></a>
             <div class="box_element product ">
                <h6 ><strong>{{product.name}}</strong></h6> 
                <hr>
                <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary update-cart" >Add to cart</button>
-               <a href="" class="btn btn-outline-success">View</a>
+               <a href="{{ product.imageURL }}" class="btn btn-outline-success">View</a>
                <h4 class="price"><strong>&#8377; {{product.price}}</strong></h4>
             </div>
         </div>

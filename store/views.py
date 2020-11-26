@@ -7,9 +7,15 @@ import json
 
 import datetime
 
+import razorpay
+
+from django.views.decorators.csrf import csrf_exempt
+
+
 from .utils import cookieCart, cartData, guestUser
 
 # Create your views here.
+
 def store(request):
 
     data = cartData(request)
@@ -37,6 +43,22 @@ def checkout(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
+    # print("cart total :",order['get_cart_total'])
+
+    # #Razorpay
+
+    # if request.method == "POST":
+    #     total = 3549
+
+        
+    #     order_receipt = 'order_rcptid_11'
+    #     client = razorpay.Client(
+    #         auth= ('rzp_test_qhjhcvlLqFxkPu','KnggQQmVxBRD9BQ2eNNAtOtS'))
+
+    #     payment = client.order.create({'total':total, 'currency':'INR', 'receipt':'order_receipt', 'payment_capture':'1'})
+        
+
+    
 
 
     context={'items':items,'order':order,'cartItems':cartItems}
@@ -76,6 +98,8 @@ def processOrder(request):
 
     transaction_id = datetime.datetime.now().timestamp()
 
+    
+
     if request.user.is_authenticated:
         customer = request.user.customer
         order , created = Order.objects.get_or_create(customer = customer, complete=False)
@@ -90,6 +114,10 @@ def processOrder(request):
         
     order.transaction_id = transaction_id
     total = float(data['form']['total'])
+
+
+    
+
 
     if total==order.get_cart_total:
         order.complete = True
