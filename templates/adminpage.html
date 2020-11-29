@@ -1,0 +1,55 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block title %}Admin Page{% endblock title %}
+{% block body %}
+<div class="container my-3">
+    <p>Admin Page...</p>
+<div class="box_element my-3">
+    <div class="cart_row">
+        
+        <div style="flex:1;"><strong>Name</strong></div>
+        <div style="flex:1;"><strong>Quantity</strong></div>
+        <div style="flex:1;" ><strong>Status</strong></div>
+        <div style="flex:1;"><strong>Total</strong></div>
+        <div style="flex:1;"><strong>Date Ordered</strong></div>
+        <div style="flex:1;"><strong>Transaction Id</strong></div>
+    </div>
+
+    {% for order in orders %}
+        {% if order.complete %}
+            <div class="cart_row">
+                
+
+                
+                <div style="flex:1;">{{order.customer.name}}</div>
+                <div style="flex:1;"> {{order.get_cart_items}}</div>
+                <div style="flex:1;" >Placed</div>
+                <div style="flex:1;">&#8377; {{order.get_cart_total}}</div>
+                <div style="flex:1;">{{order.date_ordered}}</div>
+                <div style="flex:1;">{{order.transaction_id}}</div>
+
+            </div>
+        {% else %}
+        <div class="cart_row">
+                
+
+                
+            <div style="flex:1;">{{order.customer.name}}</div>
+            <div style="flex:1;"> {{order.get_cart_items}}</div>
+            <div style="flex:1;" ><p style="color: red;">Pending</p></div>
+            <div style="flex:1;">&#8377; {{order.get_cart_total}}</div>
+            <div style="flex:1;">{{order.date_ordered}}</div>
+            <div style="flex:1;"><p style="color: red;">{{order.transaction_id}}</p></div>
+
+        </div>
+        
+        {% endif %}
+    {% endfor %}
+</div>
+</div>
+
+{% endblock body %}
+
+
+

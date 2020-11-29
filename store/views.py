@@ -22,7 +22,8 @@ from django.contrib import messages
 
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import Group
-from .decorators import unauthenticated_user
+from .decorators import unauthenticated_user , admin_only
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -37,12 +38,14 @@ def registerUser(request):
             print("inside valid form")
             user = form.save()
             username= form.cleaned_data.get('username')
+            useremail = form.cleaned_data.get('email')
             messages.success(request,'Account is created for' +' '+ username)
             group = Group.objects.get(name='customer')
             user.groups.add(group)
             Customer.objects.create(
                 user = user,
                 name = username,
+                email = useremail,
             )
             return redirect("/loginUser")
         else:
@@ -53,6 +56,7 @@ def registerUser(request):
     return render(request,"registration.html",context)
 
 @unauthenticated_user
+
 def loginUser(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -60,9 +64,12 @@ def loginUser(request):
         user = authenticate(request,username=username,password=password)
 
         print(user)
+        
         if user is not None:
             login(request,user)
-            return redirect('store')
+            return redirect('adminpage')
+            
+            
         else:
             messages.info(request,'Username or Password is incorrect')
         
@@ -72,6 +79,17 @@ def loginUser(request):
 def logoutUser(request):
     logout(request)
     return redirect('/loginUser')
+
+
+@admin_only
+def adminPage(request):
+
+    customers = Customer.objects.all()
+    orders = Order.objects.all()
+    
+    context={'orders':orders}
+    return render(request,'adminpage.html',context)
+
 
 def store(request):
 

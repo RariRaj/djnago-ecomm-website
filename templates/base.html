@@ -74,6 +74,42 @@
     </script>
   </head>
   <body>
+    {% if request.user.is_staff %}
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{% url 'adminpage' %}">Admin</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'adminpage' %}">Orders <span class="sr-only">(current)</span></a>
+          </li>
+          
+        </ul>
+        
+        <div class="form-inline my-2 my-lg-0">
+          {% if request.user.is_active %} 
+           <p class="text-light pr-3 mt-2">Hello {{request.user}}!</p>
+           <a href="{% url 'logoutUser' %}" class="btn btn-warning">Logout</a>
+          {% else %}
+          <a href="{% url 'loginUser' %}" class="btn btn-warning">Login</a>
+          {% endif%}
+          
+          
+         
+
+      </div>
+
+        
+        
+  </div>
+    </nav>
+
+    {% else %}
+
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{% url 'store' %}">Navbar</a>
@@ -108,6 +144,7 @@
           
     </div>
       </nav>
+    {% endif %}
       {% block body %}
       {% endblock body %}
 

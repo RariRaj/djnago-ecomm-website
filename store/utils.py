@@ -68,9 +68,10 @@ def guestUser(request,data):
     items = cookieData['items']
 
     customer , created = Customer.objects.get_or_create(
+        name = name,
         email=email,
         )
-    customer.name = name
+    # customer.name = name
     customer.save()
 
     order = Order.objects.create(
